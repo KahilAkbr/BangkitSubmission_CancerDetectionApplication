@@ -1,11 +1,9 @@
-package com.dicoding.asclepius.view
+package com.dicoding.asclepius.view.result
 
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.core.net.toUri
-import com.dicoding.asclepius.R
 import com.dicoding.asclepius.databinding.ActivityResultBinding
 
 class ResultActivity : AppCompatActivity() {
