@@ -5,4 +5,6 @@
     <string name="gallery">Galeri</string>
     <string name="analyze">Analyze</string>
     <string name="result">Hasil Analisis</string>
+    <string name="empty_image">Masukkan Gambar Terlebih Dahulu</string>
+    <string name="classifier_init_failed">Image classifier gagal diinisialisasi</string>
 </resources>
