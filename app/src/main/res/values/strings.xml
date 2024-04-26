@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Asclepius</string>
+    <string name="app_name">Cancer Care</string>
     <string name="camera_x">CameraX</string>
     <string name="camera">Kamera</string>
     <string name="gallery">Galeri</string>
@@ -7,4 +7,8 @@
     <string name="result">Hasil Analisis</string>
     <string name="empty_image">Masukkan Gambar Terlebih Dahulu</string>
     <string name="classifier_init_failed">Image classifier gagal diinisialisasi</string>
+    <string name="start_detection_title">Sekarang kamu bisa deteksi kanker dengan gambar lho!</string>
+    <string name="detect_now">Deteksi Sekarang</string>
+    <string name="see_result">Lihat Hasil</string>
+    <string name="news_title">Berita Kanker Terkini</string>
 </resources>
