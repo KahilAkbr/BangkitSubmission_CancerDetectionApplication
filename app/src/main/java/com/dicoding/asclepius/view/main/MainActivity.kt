@@ -26,6 +26,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        savedInstanceState?.let {
+            val uriString = it.getString("current_image_uri")
+            if (uriString != null) {
+                currentImageUri = Uri.parse(uriString)
+                showImage()
+            }
+        }
+
         binding.galleryButton.setOnClickListener{ startGallery() }
         binding.analyzeButton.setOnClickListener {
             currentImageUri?.let {
@@ -34,6 +42,11 @@ class MainActivity : AppCompatActivity() {
                 showToast(getString(R.string.empty_image))
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("current_image_uri", currentImageUri?.toString())
     }
 
     private fun startGallery() {

@@ -1,10 +1,12 @@
 package com.dicoding.asclepius.view.result
 
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.dicoding.asclepius.databinding.ActivityResultBinding
+import com.dicoding.asclepius.view.home.HomeActivity
 
 class ResultActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultBinding
@@ -23,6 +25,15 @@ class ResultActivity : AppCompatActivity() {
 
         val analyzeResult = intent.getStringExtra(EXTRA_RESULT)
         binding.resultText.text = analyzeResult
+
+        binding.btnToHome.setOnClickListener { backToHome() }
+    }
+
+    private fun backToHome() {
+        finishAffinity()
+
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
     }
 
     companion object {

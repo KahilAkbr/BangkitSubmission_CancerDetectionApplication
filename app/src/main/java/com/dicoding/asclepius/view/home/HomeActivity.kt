@@ -1,8 +1,12 @@
 package com.dicoding.asclepius.view.home
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -26,6 +30,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.setBackgroundDrawable(ColorDrawable(resources.getColor(R.color.purplePrimary)))
+
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -41,6 +46,39 @@ class HomeActivity : AppCompatActivity() {
         cardBinding.btnDetect.setOnClickListener { moveToAnalyze() }
         cardBinding.btnResult.setOnClickListener { moveToHistory() }
 
+        observeNews()
+
+        viewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
+
+    }
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val layoutManager = LinearLayoutManager(this)
+        binding.rvNews.layoutManager = layoutManager
+        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        binding.rvNews.addItemDecoration(itemDecoration)
+
+        viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
+
+        cardBinding = binding.cardHome
+
+        cardBinding.btnDetect.setOnClickListener { moveToAnalyze() }
+        cardBinding.btnResult.setOnClickListener { moveToHistory() }
+
+        observeNews()
+
+        viewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
+    }
+
+    private fun observeNews(){
         viewModel.news.observe(this) { news ->
             val filteredNewsList = news?.filter {
                 it.url != null &&
@@ -50,7 +88,10 @@ class HomeActivity : AppCompatActivity() {
             }
             getNews(filteredNewsList)
         }
+    }
 
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun getNews(news: List<ArticlesItem>?) {

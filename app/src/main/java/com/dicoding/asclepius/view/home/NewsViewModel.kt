@@ -16,6 +16,9 @@ class NewsViewModel : ViewModel() {
     private val _news = MutableLiveData<List<ArticlesItem>>()
     val news: LiveData<List<ArticlesItem>> = _news
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     companion object {
         private const val TAG = "NewsViewModel"
     }
@@ -25,12 +28,14 @@ class NewsViewModel : ViewModel() {
     }
 
     private fun getNews() {
+        _isLoading.value = true
         val client = ApiConfig.getApiSevice().getTopHeadlines("cancer","health", "en", BuildConfig.KEY)
         client.enqueue(object : Callback<NewsResponse> {
             override fun onResponse(
                 call: Call<NewsResponse>,
                 response: Response<NewsResponse>
             ) {
+                _isLoading.value = false
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
@@ -42,6 +47,7 @@ class NewsViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+                _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message}", t)
             }
         })
