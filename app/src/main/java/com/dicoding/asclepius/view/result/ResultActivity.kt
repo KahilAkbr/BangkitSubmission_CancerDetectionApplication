@@ -38,6 +38,7 @@ class ResultActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             val savedResult = SavedResult(imageUrl = imageUri.toString(), prediction = labelResult.toString(), score = scoreResult.toString())
             insertToDatabase(savedResult)
+            backToHome()
         }
     }
 

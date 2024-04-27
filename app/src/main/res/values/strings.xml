@@ -12,4 +12,5 @@
     <string name="see_result">Lihat Histori</string>
     <string name="news_title">Berita Kanker Terkini</string>
     <string name="back_to_home">Kembali ke Beranda</string>
+    <string name="saved_result">Hasil Deteksi Anda</string>
 </resources>
