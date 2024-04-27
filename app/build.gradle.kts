@@ -68,4 +68,6 @@ dependencies {
     //view model & live data
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+
+    implementation ("com.github.yalantis:ucrop:2.2.8")
 }

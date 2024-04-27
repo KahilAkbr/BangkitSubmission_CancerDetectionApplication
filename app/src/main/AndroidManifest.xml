@@ -34,6 +34,11 @@
         <activity
             android:name=".view.main.MainActivity"
             android:exported="false" />
+
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.Asclepius" />
     </application>
 
 </manifest>

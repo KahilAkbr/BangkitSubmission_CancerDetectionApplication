@@ -1,5 +1,6 @@
 package com.dicoding.asclepius.view.main
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -12,8 +13,12 @@ import com.dicoding.asclepius.R
 import com.dicoding.asclepius.databinding.ActivityMainBinding
 import com.dicoding.asclepius.helper.ImageClassifierHelper
 import com.dicoding.asclepius.view.result.ResultActivity
+import com.yalantis.ucrop.UCrop
 import org.tensorflow.lite.task.vision.classifier.Classifications
+import java.io.File
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -58,8 +63,7 @@ class MainActivity : AppCompatActivity() {
         ActivityResultContracts.PickVisualMedia()
     ) { uri: Uri? ->
         if (uri != null) {
-            currentImageUri = uri
-            showImage()
+            startUCrop(uri)
         } else {
             Log.d("Photo Picker", "No media selected")
         }
@@ -109,6 +113,32 @@ class MainActivity : AppCompatActivity() {
 
 //        moveToResult()
     }
+
+    private fun startUCrop(uri: Uri) {
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())  // Get current timestamp
+        val fileName = "UCrop_$timestamp.jpg"
+        val destinationUri = Uri.fromFile(File(cacheDir, fileName))
+
+        UCrop.of(uri, destinationUri)
+            .withAspectRatio(1f, 1f)
+            .withMaxResultSize(2000, 2000)
+            .getIntent(this@MainActivity).apply {
+                launchUCrop.launch(this)
+            }
+    }
+    private val launchUCrop =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val resultUri = UCrop.getOutput(result.data!!)
+                if (resultUri != null) {
+                    currentImageUri = resultUri
+                    showImage()
+                }
+            } else if (result.resultCode == UCrop.RESULT_ERROR) {
+                val error = UCrop.getError(result.data!!)
+                showToast("${error?.message}")
+            }
+        }
 
     private fun moveToResult(result : String) {
         val intent = Intent(this, ResultActivity::class.java)
